@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-
+using System.Globalization;
 public class Anagram
 {
     private string theWord;
@@ -8,17 +8,17 @@ public class Anagram
     public Anagram(string baseWord)
     {
         theWord = baseWord;
-        letters = baseWord.ToCharArray().OrderBy(x => x).ToArray();
+        letters = baseWord.ToLower().ToCharArray().OrderBy(x => x).ToArray();
     }
+
     public string[] FindAnagrams(string[] potentialMatches)
     {
-        var anagrams = potentialMatches.Where(word => IsAnagram(word)).ToArray();
+        var anagrams = potentialMatches.Where(word => word.ToLower() != theWord.ToLower()).Where(word => IsAnagram(word)).ToArray();
         return anagrams;
-
     }
     public bool IsAnagram(string givenWord)
     {
-        var potencialAnagram = givenWord.ToCharArray().OrderBy(x => x).ToArray();
+        var potencialAnagram = givenWord.ToLower().ToCharArray().OrderBy(x => x).ToArray();
         return letters.SequenceEqual(potencialAnagram);
     }
 }
